@@ -1,0 +1,59 @@
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    'Noto Sans SC',
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background: #f6f7fb;
+  overflow: hidden;
+}
+
+.app-layout {
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 14px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-logo {
+  width: 24px;
+  height: 24px;
+}
+
+.app-brand.collapsed {
+  padding: 14px 0;
+  gap: 0;
+}
+
+.app-header {
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.app-content {
+  padding: 20px;
+  min-height: 0;
+}
