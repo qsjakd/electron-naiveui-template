@@ -1,53 +1,59 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { NButton, NForm, NFormItem, NInput, NIcon } from 'naive-ui'
-import { PersonOutline, LockClosedOutline } from '@vicons/ionicons5'
-import electronLogo from '../assets/electron.svg'
+import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { NButton, NForm, NFormItem, NInput, NIcon } from "naive-ui";
+import { Person, LockClosed } from "@vicons/ionicons5";
+import electronLogo from "../assets/electron.svg";
 
-const AUTH_TOKEN_KEY = 'auth:token'
-const AUTH_NAME_KEY = 'auth:name'
+const AUTH_TOKEN_KEY = "auth:token";
+const AUTH_NAME_KEY = "auth:name";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const username = ref(localStorage.getItem(AUTH_NAME_KEY) ?? 'Yang')
-const password = ref('')
-const loading = ref(false)
-const errorText = ref('')
+const username = ref(localStorage.getItem(AUTH_NAME_KEY) ?? "Lin");
+const password = ref("");
+const loading = ref(false);
+const errorText = ref("");
 
 function login(): void {
-  errorText.value = ''
-  const name = username.value.trim()
+  errorText.value = "";
+  const name = username.value.trim();
   if (!name) {
-    errorText.value = '请输入用户名'
-    return
+    errorText.value = "请输入用户名";
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   window.setTimeout(() => {
-    localStorage.setItem(AUTH_TOKEN_KEY, `demo-${Date.now()}`)
-    localStorage.setItem(AUTH_NAME_KEY, name)
-    loading.value = false
+    localStorage.setItem(AUTH_TOKEN_KEY, `demo-${Date.now()}`);
+    localStorage.setItem(AUTH_NAME_KEY, name);
+    loading.value = false;
 
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/overview'
-    router.replace(redirect)
-  }, 800)
+    const redirect =
+      typeof route.query.redirect === "string"
+        ? route.query.redirect
+        : "/overview";
+    router.replace(redirect);
+  }, 800);
 }
 </script>
 
 <template>
+  <!-- 背景图 -->
+  <!-- <div class="login-container">
+    <div class="background"></div>
+    <div class="login-card"></div>
+  </div> -->
+
   <div class="login-wrapper">
-    <!-- Draggable Region -->
     <div class="drag-region"></div>
 
     <div class="login-left">
       <div class="brand-content">
         <img :src="electronLogo" alt="应用标志" class="logo" />
-        <h1 class="brand-title">Electron Naive</h1>
-        <p class="brand-desc">
-          高性能、直观、现代化的后台管理解决方案。
-        </p>
+        <h1 class="brand-title">占位符</h1>
+        <!-- <p class="brand-desc">XXXXXXXXXXX</p> -->
       </div>
       <div class="decoration-circle"></div>
       <div class="decoration-circle-small"></div>
@@ -63,18 +69,20 @@ function login(): void {
         <n-form size="large" class="login-form">
           <n-form-item :show-label="false">
             <n-input
+              class="login-input"
               v-model:value="username"
               placeholder="用户名"
               clearable
               @keyup.enter="login"
             >
               <template #prefix>
-                <n-icon :component="PersonOutline" />
+                <n-icon :component="Person" :color="'#000000'" />
               </template>
             </n-input>
           </n-form-item>
           <n-form-item :show-label="false">
             <n-input
+              class="login-input"
               v-model:value="password"
               type="password"
               show-password-on="click"
@@ -82,7 +90,7 @@ function login(): void {
               @keyup.enter="login"
             >
               <template #prefix>
-                <n-icon :component="LockClosedOutline" />
+                <n-icon :component="LockClosed" :color="'#000000'" />
               </template>
             </n-input>
           </n-form-item>
@@ -93,8 +101,8 @@ function login(): void {
         <n-button
           class="login-button"
           :loading="loading"
-          type="primary"
           size="large"
+          dashed
           block
           @click="login"
         >
@@ -118,6 +126,12 @@ function login(): void {
   overflow: hidden;
   position: relative;
   background-color: #ffffff;
+  /* 替换成你自己的背景图地址 */
+  background: url("../image/loginBackImg.jpg") no-repeat center center;
+  background-size: cover;
+  /* 轻微模糊背景，增强层次感 */
+  /* filter: blur(2px); */
+  z-index: 1;
 }
 
 :global(.is-dark) .login-wrapper {
@@ -137,7 +151,6 @@ function login(): void {
 
 .login-left {
   flex: 1;
-  background: linear-gradient(135deg, #18a058 0%, #10b981 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,9 +158,6 @@ function login(): void {
   color: white;
   position: relative;
   overflow: hidden;
-  /* Prevent dragging from the branding area if desired, or allow it. 
-     Usually large areas shouldn't be draggable if they have interactive content, 
-     but here it's just branding. */
 }
 
 .brand-content {
@@ -160,7 +170,8 @@ function login(): void {
   width: 80px;
   height: 80px;
   margin-bottom: 24px;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  user-select: none;
 }
 
 .brand-title {
@@ -168,6 +179,7 @@ function login(): void {
   font-weight: 800;
   margin: 0 0 16px;
   letter-spacing: -0.5px;
+  user-select: none;
 }
 
 .brand-desc {
@@ -175,6 +187,7 @@ function login(): void {
   opacity: 0.9;
   line-height: 1.6;
   max-width: 400px;
+  user-select: none;
 }
 
 .decoration-circle {
@@ -205,7 +218,17 @@ function login(): void {
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: #ffffff;
+  /* 毛玻璃核心属性：backdrop-filter */
+  backdrop-filter: blur(8px);
+  /* 半透明背景 + 边框，增强毛玻璃质感 */
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  /* 圆角 + 阴影，提升视觉效果 */
+  border-radius: 2px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  /* 桌面端鼠标悬浮效果 */
+  transition: transform 0.3s ease;
+  user-select: none;
 }
 
 :global(.is-dark) .login-right {
@@ -227,11 +250,11 @@ function login(): void {
   font-size: 28px;
   font-weight: 700;
   margin: 0 0 8px;
-  color: var(--n-text-color);
+  color: rgb(239, 241, 230);
 }
 
 .header-text p {
-  color: var(--n-text-color-3);
+  color: white;
   font-size: 14px;
 }
 
@@ -246,19 +269,38 @@ function login(): void {
   text-align: center;
 }
 
+.login-input {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.247);
+  background: linear-gradient(
+    180deg,
+    rgba(234, 243, 250, 1) 0%,
+    rgba(236, 245, 250, 1) 50%,
+    rgba(250, 251, 255, 1) 100%
+  );
+  border: none !important;
+  font-size: 14px;
+  color: #5f6e86;
+  letter-spacing: 2px;
+}
 .login-button {
   font-weight: 600;
-  height: 44px;
+  height: 50px;
   font-size: 16px;
+  background: #0f1527;
+  border-radius: 10px;
+  border: none !important;
+  color: white;
+  /* letter-spacing: 8px; */
 }
 
 .footer-links {
   text-align: center;
   margin-top: 24px;
   font-size: 14px;
-  color: var(--n-text-color-3);
+  color: white;
 }
-
 .link {
   color: #18a058;
   font-weight: 600;
