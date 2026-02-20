@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - aws-sdk
+  - core-js
+  - electron
+  - electron-forge
+  - electron-winstaller
+  - spawn-sync
